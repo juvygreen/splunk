@@ -1,0 +1,41 @@
+LM 10.202.14.77 10.202.14.77 /tmp/license.lic 8089 license-master N/A N/A N/A
+IDX 10.202.22.247 10.202.14.77 N/A 8089 idx1 9997 N/A N/A
+SH 10.202.9.36 10.202.14.77 N/A 8089 sh1 10.202.22.247 8089 N/A
+UF 10.202.10.153 8089 10.202.22.247 9997 uf1 N/A N/A N/A
+#
+#LM 10.202.22.42 10.202.22.42 /tmp/license.lic 8089 license-master N/A N/A N/A
+#IDX 10.202.11.60 10.202.22.42 N/A 8089 idx1 9997 N/A N/A
+#SH 10.202.22.60 10.202.22.42 N/A 8089 sh1 10.202.11.60 8089 N/A
+#UF 10.202.9.158 8089 10.202.11.60 9997 uf1 N/A N/A N/A
+#
+#LM 10.202.8.167 10.202.8.167 /tmp/license.lic 8089 license-master N/A N/A N/A
+#CM 10.202.5.148 10.202.8.167 8089 8089 cluster-master 2 2 myidxcluster
+#IDX 10.202.10.109 10.202.8.167 10.202.5.148 8089 idx1 9997 9100 myidxcluster
+#IDX 10.202.6.6 10.202.8.167 10.202.5.148 8089 idx2 9997 9100 myidxcluster
+#IDX 10.202.22.50 10.202.8.167 10.202.5.148 8089 idx3 9997 9100 
+#SH 10.202.19.44 10.202.8.167 10.202.5.148 8089 sh N/A N/A myidxcluster
+#UF 10.202.13.16 8089 [IDXIP]:[IDXIP]:[IDXIP] 8089 uf1 N/A N/A N/A
+#UF 10.202.19.18 8089 [IDXIP]:[IDXIP]:[IDXIP] 8089 uf2 N/A N/A N/A
+#
+#LM [IP] [LMIP] /tmp/license.lic 8089 license-master N/A N/A N/A
+#CM [IP] [LMIP] N/A 8089 cluster-master [RF] [SF] [SECRET]
+#IDX [IP] [LMIP] [CMIP] 8089 [label] 9997 9100 myidxcluster
+#SH [IP] [LMIP] [CMIP] [CMPORT] [label] N/A N/A N/A
+#UF [IP] [PORT] [IDXIP]:[IDXIP]:[IDXIP] [port] [label] N/A N/A N/A
+#
+######Deploy an app to indexer cluster
+# Clustering Lab page 25 Task 1
+#created the app manually
+######Disable indexing on master cluster and monitoring console (LM)
+# Clustering Lab page 27 Task 2
+######Enable the Monitoring Console to run in distributed mode (LM)
+# Clustering Lab page 28 Task 3
+#LABELCLUSTER idxc-archStudent
+#From LM/DSERVER/opt/splunk/bin/splunk add search-server CM:8089 -remoteUsername admin -remotePassword adminxyz
+#From LM/DSERVER//opt/splunk/bin/splunk edit cluster-config -mode searchhead -master_uri https://CM:8089 -secret myidxcluster
+###### Configure Forwarder
+#enable,add the indexer_discovery stanza in server.conf in CM
+#added outputs and props. did not do site aware
+#created manually uf_base
+#/opt/splunkforwarder/bin/splunk set deploy-poll LM/DSERVER:8089
+#/opt/splunkforwarder/bin/splunk set deploy-poll 10.202.8.167:8089
